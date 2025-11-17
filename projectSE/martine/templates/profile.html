@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+  <h2>My Profile</h2>
+  <p><strong>Name:</strong> {{ user_obj.fullname }}</p>
+  <p><strong>Email:</strong> {{ user_obj.email }}</p>
+  <p><strong>Role:</strong> {{ user_obj.role }}</p>
+  <p><strong>Address:</strong> {{ user_obj.address }}</p>
+  <p><strong>Phone:</strong> {{ user_obj.phone_number }}</p>
+  <a href="{% url 'profile_edit' %}" class="btn btn-primary">Edit Profile</a>
+</div>
+{% endblock %}
+
+{% block footer %}{% endblock %}
