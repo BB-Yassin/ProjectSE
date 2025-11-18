@@ -1,36 +1,217 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="container mt-5">
-  <h2>Edit Profile</h2>
-  <form method="post">
-    {% csrf_token %}
-    <div class="mb-3">
-      <label class="form-label">First name</label>
-      <input class="form-control" name="name" value="{{ user_obj.first_name }}" />
+
+<div class="container mb-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+        <!-- Card Accent Header -->
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); height: 8px;"></div>
+
+        <div class="card-body p-5">
+          <form method="post" class="edit-profile-form">
+            {% csrf_token %}
+
+            <!-- Personal Information Section -->
+            <h4 class="fw-bold mb-4 text-dark">
+              <i class="fas fa-user text-primary me-3"></i>Personal Information
+            </h4>
+
+            <div class="row mb-4">
+              <div class="col-md-6">
+                <div class="form-floating">
+                  <input type="text" class="form-control rounded-3 border-0 bg-light" id="firstName" name="name" value="{{ user_obj.first_name }}" placeholder="First Name" required />
+                  <label for="firstName">
+                    <i class="fas fa-user-tie me-2"></i>First Name
+                  </label>
+                  <small class="text-muted d-block mt-2">Your first name</small>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-floating">
+                  <input type="text" class="form-control rounded-3 border-0 bg-light" id="lastName" name="lastname" value="{{ user_obj.last_name }}" placeholder="Last Name" required />
+                  <label for="lastName">
+                    <i class="fas fa-user-tie me-2"></i>Last Name
+                  </label>
+                  <small class="text-muted d-block mt-2">Your last name</small>
+                </div>
+              </div>
+            </div>
+
+            <hr class="my-4" style="border-color: #f0f0f0;">
+
+            <!-- Contact Information Section -->
+            <h4 class="fw-bold mb-4 text-dark mt-5">
+              <i class="fas fa-contact-card text-success me-3"></i>Contact Information
+            </h4>
+
+            <div class="mb-4">
+              <div class="form-floating">
+                <input type="email" class="form-control rounded-3 border-0 bg-light" id="email" name="email" value="{{ user_obj.email }}" placeholder="Email" required />
+                <label for="email">
+                  <i class="fas fa-envelope me-2"></i>Email Address
+                </label>
+                <small class="text-muted d-block mt-2">Your login email - used for bookings and confirmations</small>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <div class="form-floating">
+                <input type="tel" class="form-control rounded-3 border-0 bg-light" id="phone" name="phone_number" value="{{ user_obj.phone_number }}" placeholder="Phone" />
+                <label for="phone">
+                  <i class="fas fa-phone me-2"></i>Phone Number
+                </label>
+                <small class="text-muted d-block mt-2">For travel confirmations and emergency contact</small>
+              </div>
+            </div>
+
+            <hr class="my-4" style="border-color: #f0f0f0;">
+
+            <!-- Address Section -->
+            <h4 class="fw-bold mb-4 text-dark mt-5">
+              <i class="fas fa-map-location-dot text-danger me-3"></i>Address
+            </h4>
+
+            <div class="mb-4">
+              <label class="form-label fw-bold text-dark mb-2">
+                <i class="fas fa-home me-2"></i>Residential Address
+              </label>
+              <textarea class="form-control rounded-3 border-0 bg-light" name="address" placeholder="Enter your complete address" rows="3">{{ user_obj.address }}</textarea>
+              <small class="text-muted d-block mt-2">Your residential or mailing address</small>
+            </div>
+
+            <hr class="my-4" style="border-color: #f0f0f0;">
+
+            <!-- Security Section -->
+            <h4 class="fw-bold mb-4 text-dark mt-5">
+              <i class="fas fa-shield-alt text-warning me-3"></i>Security
+            </h4>
+
+            <div class="mb-5">
+              <div class="form-floating">
+                <input type="password" class="form-control rounded-3 border-0 bg-light" id="password" name="password" placeholder="New Password" />
+                <label for="password">
+                  <i class="fas fa-lock me-2"></i>New Password
+                </label>
+                <small class="text-muted d-block mt-2">Leave blank to keep your current password</small>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="d-grid gap-3 d-sm-flex mt-5">
+              <button class="btn btn-lg btn-primary rounded-pill px-5 fw-bold" type="submit">
+                <i class="fas fa-save me-2"></i>Save Changes
+              </button>
+              <a href="{% url 'profile' %}" class="btn btn-lg btn-outline-secondary rounded-pill px-5 fw-bold">
+                <i class="fas fa-times me-2"></i>Cancel
+              </a>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Information Alert -->
+      <div class="alert alert-info border-0 rounded-4 mt-4 shadow-sm" style="background: linear-gradient(135deg, #e7f3ff 0%, #f0e6ff 100%); border-left: 4px solid #0d6efd;">
+        <div class="d-flex">
+          <div class="me-3">
+            <i class="fas fa-info-circle text-primary" style="font-size: 1.5rem;"></i>
+          </div>
+          <div>
+            <h6 class="fw-bold mb-2">Keep Your Profile Updated</h6>
+            <p class="mb-0 small">Updated information helps us provide better travel recommendations and ensures timely communication about your bookings.</p>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="mb-3">
-      <label class="form-label">Last name</label>
-      <input class="form-control" name="lastname" value="{{ user_obj.last_name }}" />
-    </div>
-    <div class="mb-3">
-      <label class="form-label">Email</label>
-      <input class="form-control" name="email" value="{{ user_obj.email }}" />
-    </div>
-    <div class="mb-3">
-      <label class="form-label">Address</label>
-      <input class="form-control" name="address" value="{{ user_obj.address }}" />
-    </div>
-    <div class="mb-3">
-      <label class="form-label">Phone</label>
-      <input class="form-control" name="phone_number" value="{{ user_obj.phone_number }}" />
-    </div>
-    <div class="mb-3">
-      <label class="form-label">New Password (leave blank to keep current)</label>
-      <input type="password" class="form-control" name="password" />
-    </div>
-    <button class="btn btn-success" type="submit">Save</button>
-  </form>
+  </div>
 </div>
+
+<style>
+  .edit-profile-form {
+    color: #333;
+  }
+
+  .form-floating > .form-control {
+    padding: 1rem 0.75rem;
+    font-size: 1rem;
+    min-height: auto;
+  }
+
+  .form-floating > label {
+    padding: 1rem 0.75rem;
+    font-weight: 600;
+    color: #666;
+  }
+
+  .form-control, .form-control.bg-light {
+    border: none;
+    background: #f8f9fa !important;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+  }
+
+  .form-control:focus {
+    background: #fff !important;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1), inset 0 1px 2px rgba(0,0,0,0.05);
+    border-color: #667eea;
+  }
+
+  textarea.form-control {
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  .form-floating > .form-control:focus ~ label,
+  .form-floating > .form-control:not(:placeholder-shown) ~ label {
+    color: #667eea;
+  }
+
+  .card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.12) !important;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  .btn-primary:hover {
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+  }
+
+  .btn-outline-secondary {
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  .btn-outline-secondary:hover {
+    transform: translateY(-2px);
+  }
+
+  h4 {
+    font-size: 1.3rem;
+  }
+
+  .alert-info {
+    background-color: #e7f3ff;
+    border: none;
+  }
+
+  small {
+    font-size: 0.85rem;
+  }
+</style>
 {% endblock %}
 
 {% block footer %}{% endblock %}
+
+
