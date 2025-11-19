@@ -2,18 +2,20 @@ from django.db import models
 
 class Recommendation(models.Model):
     user = models.ForeignKey(
-        'client.User', 
+        'client.User',
         on_delete=models.CASCADE,
         related_name='recommendations'
     )
-    
-    #soffer = models.ForeignKey(
-       # 'Offer', 
-      #  on_delete=models.CASCADE,
-     #   related_name='recommendations'
-    #)
- 
-    
+
+    # Added according to your requirement
+    offer = models.ForeignKey(
+        'offers.Offer',
+        on_delete=models.CASCADE,
+        related_name='recommendations',
+        null=True,
+        blank=True
+    )
+
     # Why was this recommended?
     match_score = models.FloatField(
         help_text="How well this matches user preferences (0-100)"
@@ -40,10 +42,10 @@ class Recommendation(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     
     class Meta:
-        unique_together = ['user']
-        #unique_together = ['user', 'offer']
-
+        unique_together = ('user', 'offer')   # ensure 1 recommendation per user-offer pair
         ordering = ['-match_score', '-created_at']
     
     def __str__(self):
-        return f"Recommendation: {self.offer.title} for {self.user.get_full_name()}"
+        # Safe fallback if offer is null
+        offer_title = self.offer.title if self.offer else "No Offer"
+        return f"Recommendation: {offer_title} for {self.user.get_full_name()}"
