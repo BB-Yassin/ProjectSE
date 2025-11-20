@@ -1,6 +1,8 @@
 from django import forms
 from .models import Reclamation, ReclamationComment
-from .models import Reservation
+from reservations.models import Reservation
+
+
 
 class ReclamationForm(forms.ModelForm):
     class Meta:

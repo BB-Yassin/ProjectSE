@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block title %}Feedback #{{ feedback.id }}{% endblock %}
+{% block content %}
+
+<div class="container py-5" style="max-width: 900px;">
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold">Feedback #{{ feedback.id }}</h2>
+    <a href="{% url 'feedback:list' %}" class="btn btn-outline-secondary">Mes Feedbacks</a>
+  </div>
+
+  <div class="card shadow-sm mb-4">
+    <div class="card-body">
+
+      <div class="mb-3">
+        <strong class="text-muted">Soumis le :</strong>
+        {{ feedback.date_soumission|date:"Y-m-d H:i" }}
+      </div>
+
+      <div class="mb-3">
+        <strong class="text-muted">Par :</strong>
+        {{ feedback.submitter_name }}
+      </div>
+
+      <div class="mb-3">
+        <strong class="text-muted">Offre :</strong>
+        {% if feedback.offer %}
+          {{ feedback.offer }}
+        {% else %}
+          <span class="text-secondary">Général</span>
+        {% endif %}
+      </div>
+
+      <div class="mb-3">
+        <strong class="text-muted">Note :</strong>
+        ⭐ {{ feedback.note }}/5
+      </div>
+
+      <div class="mb-3">
+        <strong class="text-muted d-block mb-2">Description :</strong>
+        <div class="border rounded p-3 bg-light">
+          {{ feedback.description|linebreaks }}
+        </div>
+      </div>
+
+      {% if feedback.attachement %}
+      <div class="mb-3">
+        <strong class="text-muted">Pièce jointe :</strong><br>
+        <a href="{{ feedback.attachement.url }}" target="_blank" class="btn btn-sm btn-outline-primary mt-2">
+          Télécharger le fichier
+        </a>
+      </div>
+      {% endif %}
+
+      <div class="mt-4">
+        <a href="{% url 'feedback:list' %}" class="btn btn-secondary">Retour</a>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}

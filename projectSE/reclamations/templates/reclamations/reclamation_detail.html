@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Réclamation #{{ reclamation.id }}{% endblock %}
+{% block content %}
+<div class="container py-5">
+  <h2>Réclamation: {{ reclamation.type_de_reclamation }}</h2>
+  <p>{{ reclamation.description|linebreaks }}</p>
+  <p><strong>Soumis par:</strong> {{ reclamation.submitter_name }} — <strong>Statut:</strong> {{ reclamation.get_status_display }}</p>
+  <p><strong>Date création:</strong> {{ reclamation.date_creation|date:"Y-m-d H:i" }}</p>
+  {% if reclamation.date_resolution %}
+    <p><strong>Date résolution:</strong> {{ reclamation.date_resolution|date:"Y-m-d H:i" }}</p>
+  {% endif %}
+
+  <hr>
+  <h4>Commentaires</h4>
+  {% if reclamation.comments.all %}
+    <ul class="list-group mb-3">
+      {% for c in reclamation.comments.all %}
+        <li class="list-group-item">
+          <div>{{ c.description|linebreaks }}</div>
+          <div class="small text-muted">Par: {% if c.user %}{{ c.user.fullname }}{% else %}Anonyme{% endif %} — {{ c.date_added|date:"Y-m-d H:i" }}</div>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>Aucun commentaire pour le moment.</p>
+  {% endif %}
+
+  <h5>Ajouter un commentaire</h5>
+  <form method="post" action="{% url 'reclamations:add_comment' reclamation.pk %}">
+    {% csrf_token %}
+    {{ comment_form.description }}
+    <div class="mt-2">
+      <button class="btn btn-sm btn-primary" type="submit">Ajouter</button>
+    </div>
+  </form>
+
+  <div class="mt-3">
+    <a href="{% url 'reclamations:list' %}" class="btn btn-link">Retour</a>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %}Mes Feedbacks{% endblock %}
+{% block content %}
+
+<div class="container py-5" style="max-width: 900px;">
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold">Mes Feedbacks</h2>
+    <a href="{% url 'feedback:new' %}" class="btn btn-primary">Nouveau Feedback</a>
+  </div>
+
+  {% if feedbacks %}
+    <div class="row g-3">
+      {% for f in feedbacks %}
+      <div class="col-12">
+        <div class="card shadow-sm">
+          <div class="card-body">
+
+            <h5 class="card-title mb-1">
+              {% if f.offer %}Offre : {{ f.offer.title }}{% else %}Feedback Général{% endif %}
+            </h5>
+
+            <p class="card-text text-muted small mb-2">
+              {{ f.date_soumission|date:"Y-m-d H:i" }}  
+              — ⭐ {{ f.note }}/5
+            </p>
+
+            <p class="card-text">
+              {{ f.description|truncatewords:20 }}
+            </p>
+
+            <a href="{% url 'feedback:detail' f.pk %}" class="btn btn-outline-primary btn-sm">
+              Voir
+            </a>
+
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="alert alert-info text-center mt-4">
+      Aucun feedback trouvé.
+    </div>
+  {% endif %}
+
+</div>
+
+{% endblock %}
