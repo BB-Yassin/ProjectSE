@@ -1,6 +1,8 @@
 # reclamations/models.py
 from django.db import models
 from django.conf import settings
+from django.utils import timezone
+
 
 class Reclamation(models.Model):
     client = models.ForeignKey(
@@ -75,3 +77,10 @@ class ReclamationComment(models.Model):
 
     def __str__(self):
         return f"Commentaire #{self.id}"
+
+
+def save(self, *args, **kwargs):
+    # If status changed to 'resolu' and no date_resolution set, set it now
+    if self.status == 'resolu' and not self.date_resolution:
+        self.date_resolution = timezone.now()
+    super().save(*args, **kwargs)

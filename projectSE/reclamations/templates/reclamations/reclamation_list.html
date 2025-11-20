@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Mes réclamations{% endblock %}
+{% block content %}
+
+<div class="container py-5" style="max-width: 900px;">
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold">Mes réclamations</h2>
+    <a href="{% url 'reclamations:new' %}" class="btn btn-primary">
+      Nouvelle réclamation
+    </a>
+  </div>
+
+  {% if reclamations %}
+    <div class="row g-3">
+      {% for r in reclamations %}
+      <div class="col-12">
+        <div class="card shadow-sm">
+          <div class="card-body">
+
+            <h5 class="card-title mb-1">{{ r.type_de_reclamation }}</h5>
+
+            <p class="card-text text-muted small mb-2">
+              {{ r.date_creation|date:"Y-m-d H:i" }}  
+              — <strong>Statut:</strong> {{ r.get_status_display }}  
+              — <strong>Priorité:</strong> {{ r.get_priorite_display }}
+            </p>
+
+            <p class="card-text">{{ r.description|linebreaksbr }}</p>
+
+            <a href="{% url 'reclamations:detail' r.pk %}" 
+               class="btn btn-outline-primary btn-sm mt-2">
+              Voir la réclamation
+            </a>
+
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+  {% else %}
+    <div class="alert alert-info text-center mt-4">
+      Aucune réclamation trouvée.
+    </div>
+  {% endif %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %}Envoyer un feedback{% endblock %}
+{% block content %}
+
+<div class="container py-5" style="max-width: 800px;">
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold">Envoyer un feedback</h2>
+    <a href="{% url 'feedback:list' %}" class="btn btn-outline-secondary">Mes Feedbacks</a>
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+
+      <p class="text-muted">
+        Si vous êtes connecté, ce feedback sera automatiquement associé à votre compte.
+      </p>
+
+      <form method="post" enctype="multipart/form-data" novalidate>
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Offre (facultatif)</label>
+          {{ form.offer }}
+          <div class="text-danger small">{{ form.offer.errors }}</div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Note (1 à 5)</label>
+          {{ form.note }}
+          <div class="text-danger small">{{ form.note.errors }}</div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Description</label>
+          {{ form.description }}
+          <div class="text-danger small">{{ form.description.errors }}</div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Pièce jointe</label>
+          {{ form.attachement }}
+          <div class="text-danger small">{{ form.attachement.errors }}</div>
+        </div>
+
+        <div class="d-flex justify-content-end gap-3">
+          <a href="{% url 'feedback:list' %}" class="btn btn-light">Annuler</a>
+          <button class="btn btn-primary" type="submit">Envoyer</button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}
