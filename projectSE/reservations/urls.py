@@ -10,6 +10,8 @@ urlpatterns = [
     path('paiements/creer/', views.creer_paiement, name='creer_paiement'),
     path('paiements/modifier/<int:id_paiement>/', views.modifier_paiement, name='modifier_paiement'),
     path('paiements/supprimer/<int:id_paiement>/', views.supprimer_paiement, name='supprimer_paiement'),
+    path('client/creer/', views.creer_reservation_client, name='creer_reservation_client'),
+    path('client/<int:reservation_id>/paiement/creer/', views.creer_paiement_client, name='creer_paiement_client'),
 ]
 
 

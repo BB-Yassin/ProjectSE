@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render
 from django.http import HttpResponse
 
 from .models import Reservation , Paiement
-from .forms import ReservationForm , PaiementForm
+from .forms import ReservationForm , PaiementForm , ReservationClientForm , PaiementClientForm
 from django.shortcuts import get_object_or_404
 
 def home(request):
@@ -77,3 +77,30 @@ def supprimer_paiement(request, id_paiement):
         paiement.delete()
         return redirect('liste_paiements')
     return render(request, 'reservations/supprimer_paiement.html', {'paiement': paiement})
+
+
+def creer_reservation_client(request):
+    if request.method == 'POST':
+        form = ReservationClientForm(request.POST)
+        if form.is_valid():
+            reservation = form.save(commit=False)
+            reservation.client = request.user
+            reservation.save()
+            return redirect('liste_reservations')
+    else:
+        form = ReservationClientForm()
+    return render(request, 'reservations/creer_reservation_client.html', {'form': form})
+
+def creer_paiement_client(request, reservation_id):
+    reservation = get_object_or_404(Reservation, id_reservation=reservation_id, client=request.user)
+
+    if request.method == 'POST':
+        form = PaiementClientForm(request.POST)
+        if form.is_valid():
+            paiement = form.save(commit=False)
+            paiement.reservation = reservation
+            paiement.save()
+            return redirect('liste_paiements')  # ou page confirmation
+    else:
+        form = PaiementClientForm()
+    return render(request, 'reservations/creer_paiement_client.html', {'form': form, 'reservation': reservation})
