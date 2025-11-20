@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Effectuer un paiement</title>
+</head>
+<body>
+    <h1>Paiement pour la réservation #{{ reservation.id_reservation }}</h1>
+    <p>Montant à payer : {{ reservation.prix_total }} €</p>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <label for="mode_paiement">Mode de paiement</label>
+        {{ form.mode_paiement }}
+
+        <button type="submit">Payer</button>
+    </form>
+</body>
+</html>

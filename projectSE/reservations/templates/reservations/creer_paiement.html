@@ -1,0 +1,8 @@
+<h1>Créer Paiement</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.reservation }}
+    {{ form.mode_paiement }}
+    <button type="submit">Enregistrer</button>
+</form>

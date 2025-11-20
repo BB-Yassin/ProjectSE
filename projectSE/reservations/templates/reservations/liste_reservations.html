@@ -1,0 +1,31 @@
+<h1>Liste des réservations</h1>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Client</th>
+        <th>Offre</th>
+        <th>Statut</th>
+        <th>Nombre de personnes</th>
+        <th>Actions</th>
+    </tr>
+
+    {% for r in reservations %}
+    <tr>
+        <td>{{ r.id_reservation }}</td>
+        <td>{{ r.client }}</td>
+        <td>{{ r.offre }}</td>
+        <td>{{ r.statut_reservation }}</td>
+        <td>{{ r.nb_personnes }}</td>
+        <td>
+            <a href="{% url 'modifier_reservation' r.id_reservation %}">Modifier</a> |
+            <a href="{% url 'supprimer_reservation' r.id_reservation %}">Supprimer</a>
+        </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="6">Aucune réservation trouvée.</td></tr>
+    {% endfor %}
+</table>
+
+<br>
+<a href="{% url 'creer_reservation' %}">Créer une nouvelle réservation</a>
