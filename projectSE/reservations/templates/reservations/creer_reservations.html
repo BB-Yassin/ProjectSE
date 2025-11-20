@@ -1,0 +1,12 @@
+<h1>Créer une réservation</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    {% if prix_total %}
+        <p>Prix total estimé : {{ prix_total }} €</p>
+    {% endif %}
+
+    <button type="submit">Enregistrer</button>
+</form>
+>

@@ -8,13 +8,13 @@ class AccommodationCategory(models.TextChoices):
     VILLA = 'VILLA', 'Villa'
 
 class Accommodation(models.Model):
-    type = models.CharField(max_length=50)  # e.g., "Hotel", "Apartment"
+    type = models.CharField(max_length=50)
     adresse = models.CharField(max_length=255)
     ville = models.CharField(max_length=100)
     pays = models.CharField(max_length=100)
     categorie = models.CharField(max_length=20, choices=AccommodationCategory.choices, default=AccommodationCategory.HOTEL)
     capacite = models.PositiveIntegerField(default=2)
-    equipement = models.TextField(blank=True)  # comma-separated or JSON in real app
+    equipement = models.TextField(blank=True)
     checkin_time = models.TimeField(null=True, blank=True)
     checkout_time = models.TimeField(null=True, blank=True)
 
@@ -29,7 +29,7 @@ class Flight(models.Model):
     date_depart = models.DateTimeField()
     date_arrive = models.DateTimeField()
     duree = models.DurationField(null=True, blank=True)
-    classe_disponibles = models.CharField(max_length=100, blank=True)  # e.g., "Economy,Business"
+    classe_disponibles = models.CharField(max_length=100, blank=True)
     bagage_inclus = models.BooleanField(default=False)
     terminal_depart = models.CharField(max_length=50, blank=True, null=True)
     terminal_arrive = models.CharField(max_length=50, blank=True, null=True)
@@ -53,7 +53,6 @@ class Offer(models.Model):
     flight = models.ForeignKey(Flight, on_delete=models.SET_NULL, null=True, blank=True, related_name='offers')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    # optional fields: tags, images, ratings etc.
 
     def __str__(self):
         return self.titre

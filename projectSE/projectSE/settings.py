@@ -44,7 +44,9 @@ INSTALLED_APPS = [
     'loyaltyService',
     'recommandations',
     'martine',
-    'booking',
+    
+    'reservations',
+
     'offers',
     'feedback',
     'reclamations',
