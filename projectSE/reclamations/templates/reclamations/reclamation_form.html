@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Nouvelle réclamation{% endblock %}
+{% block content %}
+<div class="container py-5" style="max-width: 800px;">
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold">Nouvelle réclamation</h2>
+    <a href="/reclamations/" class="btn btn-outline-secondary">
+      Mes réclamations
+    </a>
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+
+      <form method="post" novalidate>
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Sujet de réclamation</label>
+          {{ form.type_de_reclamation }}
+          <div class="text-danger small">{{ form.type_de_reclamation.errors }}</div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Description</label>
+          {{ form.description }}
+          <div class="text-danger small">{{ form.description.errors }}</div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Priorité</label>
+          {{ form.priorite }}
+          <div class="text-danger small">{{ form.priorite.errors }}</div>
+        </div>
+
+        {% if form.reservation %}
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Réservation (facultatif)</label>
+          {{ form.reservation }}
+          <div class="text-danger small">{{ form.reservation.errors }}</div>
+        </div>
+        {% endif %}
+
+        <hr>
+
+        <h5 class="fw-bold mb-3">Ajouter un commentaire (optionnel)</h5>
+        {{ comment_form.description }}
+
+        <div class="d-flex justify-content-end mt-4 gap-3">
+          <a href="{% url 'reclamations:list' %}" class="btn btn-light">Annuler</a>
+          <button class="btn btn-primary" type="submit">Soumettre</button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

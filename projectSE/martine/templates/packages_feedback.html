@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Feedback {% endblock %}
+{% block content %}
+<div class="container py-5 text-center">
+  <h1>Feedback </h1>
+  <p>If you experienced an issue with a package or want to share thoughts, please submit feedback.</p>
+  <a href="{% url 'feedback:new' %}" class="btn btn-primary btn-lg">Send feedback (for packages)</a>
+  <a href="{% url 'martine:packages' %}" class="btn btn-link">Back to packages</a>
+</div>
+{% endblock %}

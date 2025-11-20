@@ -28,6 +28,8 @@ urlpatterns = [
     path('users/', listUsers, name='list_users'),
     path('users/update/<int:user_id>/', updateUser, name='update_user'),
     path('users/delete/<int:user_id>/', deleteUser, name='delete_user'),
+    path('feedback/', include('feedback.urls', namespace='feedback')),
+
 
 ]
 

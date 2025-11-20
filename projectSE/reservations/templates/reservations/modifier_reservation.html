@@ -1,0 +1,9 @@
+<h1>Modifier la réservation</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Enregistrer les modifications</button>
+</form>
+
+<a href="{% url 'liste_reservations' %}">Retour à la liste</a>

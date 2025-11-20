@@ -1,0 +1,15 @@
+<h1>Liste des Paiements</h1>
+<a href="{% url 'creer_paiement' %}">Ajouter Paiement</a>
+<table>
+{% for p in paiements %}
+<tr>
+  <td>{{ p.id }}</td>
+  <td>{{ p.reservation }}</td>
+  <td>{{ p.montant }}</td>
+  <td>
+    <a href="{% url 'modifier_paiement' p.id %}">Modifier</a>
+    <a href="{% url 'supprimer_paiement' p.id %}">Supprimer</a>
+  </td>
+</tr>
+{% endfor %}
+</table>

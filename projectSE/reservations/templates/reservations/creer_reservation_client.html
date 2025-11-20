@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Créer une réservation</title>
+</head>
+<body>
+    <h1>Nouvelle réservation</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        
+        <label for="offre">Offre</label>
+        {{ form.offre }}
+
+        <label for="nb_personnes">Nombre de personnes</label>
+        {{ form.nb_personnes }}
+
+        <button type="submit">Réserver</button>
+    </form>
+</body>
+</html>
