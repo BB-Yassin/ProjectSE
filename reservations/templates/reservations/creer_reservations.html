@@ -1,0 +1,226 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+  :root {
+    --color-primary: #2563eb;
+    --color-primary-light: #3b82f6;
+    --color-accent-1: #ec4899;
+    --color-accent-2: #f59e0b;
+    --color-accent-3: #10b981;
+    --color-accent-4: #8b5cf6;
+    --color-bg-light: #f8fafc;
+    --color-text-dark: #1e293b;
+    --color-text-light: #64748b;
+    --color-border: #e2e8f0;
+  }
+
+  .form-hero {
+    padding: 60px 20px 40px;
+    text-align: center;
+    background: linear-gradient(135deg, #2563eb 0%, #8b5cf6 100%);
+    color: white;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .form-hero h2 {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    letter-spacing: -0.5px;
+  }
+
+  .form-hero p {
+    font-size: 16px;
+    opacity: 0.95;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .form-content {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 60px 20px;
+    background: var(--color-bg-light);
+  }
+
+  .reservation-wrapper {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid var(--color-border);
+    padding: 40px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+
+  .form-section {
+    margin-bottom: 32px;
+  }
+
+  .form-section:last-child {
+    margin-bottom: 0;
+  }
+
+  .section-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--color-primary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--color-primary);
+  }
+
+  .reservation-form p {
+    margin-bottom: 24px;
+  }
+
+  .reservation-form label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-text-dark);
+    margin-bottom: 10px;
+    letter-spacing: 0.3px;
+  }
+
+  .reservation-form input,
+  .reservation-form select {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid var(--color-border);
+    border-radius: 8px;
+    font-size: 15px;
+    font-family: inherit;
+    background-color: white;
+    color: var(--color-text-dark);
+    transition: all 0.3s ease;
+  }
+
+  .reservation-form input::placeholder {
+    color: var(--color-text-light);
+  }
+
+  .reservation-form input:hover,
+  .reservation-form select:hover {
+    border-color: var(--color-primary-light);
+    background-color: white;
+  }
+
+  .reservation-form input:focus,
+  .reservation-form select:focus {
+    outline: none;
+    border-color: var(--color-primary-light);
+    background-color: white;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+  }
+
+  .reservation-form button[type="submit"] {
+    width: 100%;
+    padding: 16px 24px;
+    background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-accent-4) 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 16px;
+  }
+
+  .reservation-form button[type="submit"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(37, 99, 235, 0.3);
+  }
+
+  .reservation-form button[type="submit"]:active {
+    transform: translateY(0);
+  }
+
+  @media (max-width: 640px) {
+    .form-hero {
+      padding: 40px 20px 30px;
+    }
+
+    .form-hero h2 {
+      font-size: 28px;
+    }
+
+    .form-content {
+      padding: 40px 16px;
+    }
+
+    .reservation-wrapper {
+      padding: 24px;
+    }
+
+    .section-title {
+      font-size: 12px;
+    }
+  }
+</style>
+
+<div class="form-hero">
+  <h2>Créer une réservation</h2>
+  <p>Remplissez le formulaire ci-dessous pour effectuer votre réservation</p>
+</div>
+
+<div class="form-content">
+
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-success" role="alert">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <div class="reservation-wrapper">
+    <form method="post" class="reservation-form">
+      {% csrf_token %}
+
+      <div class="form-section">
+        <div class="section-title">Informations client</div>
+        {% for field in form %}
+          {% if field.name == 'client' %}
+            <p>
+              <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+              {{ field }}
+            </p>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <div class="form-section">
+        <div class="section-title">Détails de la réservation</div>
+        {% for field in form %}
+          {% if field.name in 'offre|nb_personnes' %}
+            <p>
+              <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+              {{ field }}
+            </p>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <div class="form-section">
+        <div class="section-title">Paiement</div>
+        {% for field in form %}
+          {% if field.name == 'mode_paiement' %}
+            <p>
+              <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+              {{ field }}
+            </p>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <button type="submit">Confirmer la réservation</button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

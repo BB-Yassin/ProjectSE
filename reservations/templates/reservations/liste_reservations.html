@@ -1,0 +1,385 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+  :root {
+    --color-primary: #2563eb;
+    --color-primary-light: #3b82f6;
+    --color-accent-1: #ec4899;
+    --color-accent-2: #f59e0b;
+    --color-accent-3: #10b981;
+    --color-accent-4: #8b5cf6;
+    --color-bg-light: #f8fafc;
+    --color-text-dark: #1e293b;
+    --color-text-light: #64748b;
+    --color-border: #e2e8f0;
+  }
+
+  .filter-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    background: var(--color-bg-light);
+    min-height: 100vh;
+  }
+
+  .filter-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .filter-header h2 {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--color-text-dark);
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+  }
+
+  .filter-header p {
+    font-size: 14px;
+    color: var(--color-text-light);
+  }
+
+  .filter-section {
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 32px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    margin-bottom: 32px;
+  }
+
+  .filter-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--color-text-dark);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .filter-title::before {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 24px;
+    background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-accent-4) 100%);
+    border-radius: 2px;
+  }
+
+  .filter-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    align-items: flex-end;
+  }
+
+  .filter-group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .filter-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-text-dark);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+
+  .filter-group input,
+  .filter-group select {
+    padding: 12px 14px;
+    border: 2px solid var(--color-border);
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    background-color: white;
+    color: var(--color-text-dark);
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  .filter-group input:focus,
+  .filter-group select:focus {
+    outline: none;
+    border-color: var(--color-primary-light);
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+  }
+
+  .filter-btn {
+    padding: 12px 28px;
+    background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-accent-4) 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+  }
+
+  .filter-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+  }
+
+  /* <CHANGE> Section liste complète avec tous les styles */
+  .list-section {
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 32px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  }
+
+  .list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .list-section h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--color-text-dark);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .list-section h3::before {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 24px;
+    background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-accent-4) 100%);
+    border-radius: 2px;
+  }
+
+  /* <CHANGE> Bouton créer avec style premium */
+  .create-btn {
+    display: inline-block;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, var(--color-accent-3) 0%, var(--color-accent-2) 100%);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+    border: none;
+    cursor: pointer;
+  }
+
+  .create-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+  }
+
+  .list-section table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .list-section thead {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent-4) 100%);
+    color: white;
+  }
+
+  .list-section th {
+    padding: 16px;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .list-section td {
+    padding: 14px 16px;
+    border-top: 1px solid var(--color-border);
+    color: var(--color-text-dark);
+    font-size: 14px;
+  }
+
+  .list-section tbody tr {
+    transition: all 0.2s ease;
+  }
+
+  .list-section tbody tr:hover {
+    background-color: var(--color-bg-light);
+  }
+
+  /* <CHANGE> Styles pour les boutons modifier et supprimer */
+  .action-buttons {
+    display: flex;
+    gap: 8px;
+  }
+
+  .action-btn {
+    display: inline-block;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+
+  .action-btn-edit {
+    background: linear-gradient(135deg, var(--color-accent-2) 0%, var(--color-accent-1) 100%);
+    color: white;
+  }
+
+  .action-btn-edit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(245, 158, 11, 0.3);
+  }
+
+  .action-btn-delete {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+  }
+
+  .action-btn-delete:hover {
+    background: #ef4444;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(239, 68, 68, 0.3);
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--color-text-light);
+  }
+
+  @media (max-width: 768px) {
+    .filter-form {
+      grid-template-columns: 1fr;
+    }
+
+    .list-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .list-section table {
+      font-size: 12px;
+    }
+
+    .list-section th,
+    .list-section td {
+      padding: 10px 8px;
+    }
+
+    .action-buttons {
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .action-btn {
+      width: 100%;
+      text-align: center;
+    }
+  }
+</style>
+
+<div class="filter-container">
+  <div class="filter-header">
+    <h2>Gestion des réservations</h2>
+    <p>Filtrez, créez, modifiez ou supprimez vos réservations</p>
+  </div>
+
+  <!-- <CHANGE> Formulaire de filtrage -->
+  <div class="filter-section">
+    <div class="filter-title">Critères de recherche</div>
+
+    <form method="get" class="filter-form">
+      <div class="filter-group">
+        <label for="date">Date de réservation</label>
+        <input type="date" id="date" name="date" value="{{ request.GET.date }}">
+      </div>
+
+      <div class="filter-group">
+        <label for="mode_paiement">Mode de paiement</label>
+        <select id="mode_paiement" name="mode_paiement">
+          <option value="">Tous les modes</option>
+          <option value="carte_bancaire" {% if request.GET.mode_paiement == "carte_bancaire" %}selected{% endif %}>Carte bancaire</option>
+          <option value="cash" {% if request.GET.mode_paiement == "cash" %}selected{% endif %}>Cash</option>
+          <option value="virement_bancaire" {% if request.GET.mode_paiement == "virement_bancaire" %}selected{% endif %}>Virement</option>
+          <option value="paypal" {% if request.GET.mode_paiement == "paypal" %}selected{% endif %}>PayPal</option>
+        </select>
+      </div>
+
+      <button type="submit" class="filter-btn">Filtrer</button>
+    </form>
+  </div>
+
+  <!-- <CHANGE> Section liste avec bouton créer en haut -->
+  <div class="list-section">
+    <div class="list-header">
+      <h3>Liste des réservations</h3>
+      <a href="{% url 'creer_reservation' %}" class="create-btn">+ Créer une réservation</a>
+    </div>
+
+    {% if reservations %}
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Client</th>
+            <th>Offre</th>
+            <th>Date</th>
+            <th>Mode de paiement</th>
+            <th>Prix</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in reservations %}
+          <tr>
+            <td><strong>#{{ r.id_reservation }}</strong></td>
+            <td>{{ r.client.first_name }} {{ r.client.last_name }}</td>
+            <td>{{ r.offre.titre }}</td>
+            <td>{{ r.date_reservation|date:"d/m/Y H:i" }}</td>
+            <td>{{ r.mode_paiement }}</td>
+            <td><span class="table-price">{{ r.prix_total }} €</span></td>
+            <td>
+              <div class="action-buttons">
+                <a href="{% url 'modifier_reservation' pk=r.id_reservation %}" class="action-btn action-btn-edit">Modifier</a>
+                <a href="{% url 'supprimer_reservation' pk=r.id_reservation %}" class="action-btn action-btn-delete" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette réservation ?');">Supprimer</a>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <div class="empty-state">
+        <p>Aucune réservation trouvée.</p>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}

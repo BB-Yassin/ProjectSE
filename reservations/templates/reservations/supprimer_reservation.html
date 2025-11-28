@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="delete-confirmation">
+    <h2>Supprimer la réservation</h2>
+    <p>Voulez-vous vraiment supprimer la réservation de <strong>{{ object.client.first_name }} {{ object.client.last_name }}</strong> pour l'offre "<strong>{{ object.offre.titre }}</strong>" ?</p>
+
+    <form method="post" class="delete-form">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Confirmer la suppression</button>
+        <a href="{% url 'liste_reservations' %}" class="btn btn-secondary">Annuler</a>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.delete-confirmation {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 25px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    text-align: center;
+}
+
+.delete-confirmation h2 {
+    margin-bottom: 20px;
+}
+
+.delete-form button,
+.delete-form a.btn {
+    margin: 10px 5px;
+}
+</style>
+{% endblock %}

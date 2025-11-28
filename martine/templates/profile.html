@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<div class="container mb-5">
+  <div class="row">
+    <!-- Main Profile Card -->
+    <div class="col-lg-8 mb-4">
+      <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+        <!-- Card Header with Accent -->
+        <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); height: 8px;"></div>
+        
+        <div class="card-body p-5">
+          <h3 class="mb-4 fw-bold text-dark">
+            <i class="fas fa-user-circle text-primary me-3"></i>Personal Information
+          </h3>
+
+          <!-- Profile Grid -->
+          <div class="row">
+            <div class="col-md-6 mb-4">
+              <div class="profile-field">
+                <label class="text-uppercase small fw-bold text-muted">Full Name</label>
+                <h5 class="text-dark mt-2 mb-0">{{ user_obj.fullname }}</h5>
+              </div>
+            </div>
+            <div class="col-md-6 mb-4">
+              <div class="profile-field">
+                <label class="text-uppercase small fw-bold text-muted">Account Role</label>
+                <div class="mt-2">
+                  <span class="badge {% if user_obj.role == 'ADMIN' %}bg-danger{% else %}bg-success{% endif %} px-3 py-2 rounded-pill">
+                    <i class="fas fa-crown me-2"></i>{{ user_obj.role }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <hr class="my-4" style="border-color: #f0f0f0;">
+
+          <div class="row">
+            <div class="col-md-6 mb-4">
+              <div class="profile-field">
+                <label class="text-uppercase small fw-bold text-muted">
+                  <i class="fas fa-envelope text-primary me-2"></i>Email
+                </label>
+                <h5 class="text-dark mt-2 mb-0">{{ user_obj.email }}</h5>
+              </div>
+            </div>
+            <div class="col-md-6 mb-4">
+              <div class="profile-field">
+                <label class="text-uppercase small fw-bold text-muted">
+                  <i class="fas fa-phone text-primary me-2"></i>Phone
+                </label>
+                <h5 class="text-dark mt-2 mb-0">{{ user_obj.phone_number|default:"Not provided" }}</h5>
+              </div>
+            </div>
+          </div>
+
+          <hr class="my-4" style="border-color: #f0f0f0;">
+
+          <div class="profile-field">
+            <label class="text-uppercase small fw-bold text-muted">
+              <i class="fas fa-map-marker-alt text-primary me-2"></i>Address
+            </label>
+            <h5 class="text-dark mt-2 mb-0">{{ user_obj.address|default:"Not provided" }}</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Travel Stats Sidebar -->
+    <div class="col-lg-4">
+      <!-- Quick Stats Card -->
+      <div class="card border-0 shadow-sm rounded-4 mb-4 overflow-hidden">
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; color: white; text-align: center;">
+          <i class="fas fa-suitcase-rolling" style="font-size: 48px; margin-bottom: 15px; display: block;"></i>
+          <h4 class="mb-0">Ready to Explore?</h4>
+        </div>
+        <div class="card-body text-center py-4">
+          <p class="text-muted mb-3">Update your profile to get personalized travel recommendations</p>
+          <a href="{% url 'profile_edit' %}" class="btn btn-primary btn-sm rounded-pill px-4">
+            <i class="fas fa-edit me-2"></i>Edit Profile
+          </a>
+        </div>
+      </div>
+
+      <!-- Travel Tips Card -->
+      <div class="card border-0 shadow-sm rounded-4 bg-light">
+        <div class="card-body p-4">
+          <h5 class="fw-bold mb-3">
+            <i class="fas fa-lightbulb text-warning me-2"></i>Travel Tips
+          </h5>
+          <ul class="small mb-0 ps-3">
+            <li class="mb-2">Keep your contact info updated for booking confirmations</li>
+            <li class="mb-2">Save your preferred accommodations in your profile</li>
+            <li>Enable notifications for exclusive travel deals</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="row mt-5">
+    <div class="col-12">
+      <div class="d-flex gap-3 flex-wrap">
+        <a href="{% url 'profile_edit' %}" class="btn btn-lg btn-primary rounded-pill px-5">
+          <i class="fas fa-edit me-2"></i>Edit Profile
+        </a>
+        <a href="{% url 'home' %}" class="btn btn-lg btn-outline-secondary rounded-pill px-5">
+          <i class="fas fa-arrow-left me-2"></i>Back to Home
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .profile-hero {
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    margin-top: -2rem;
+  }
+
+  .profile-field {
+    position: relative;
+    padding-bottom: 10px;
+  }
+
+  .profile-field label {
+    display: block;
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+
+  .profile-field h5 {
+    font-size: 1.1rem;
+    color: #333;
+    font-weight: 600;
+  }
+
+  .card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: none;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.12) !important;
+  }
+
+  .badge {
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  .btn-primary:hover {
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+  }
+</style>
+{% endblock %}
+
+{% block footer %}{% endblock %}
+
+

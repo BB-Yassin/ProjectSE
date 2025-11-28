@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Modifier la réservation</h2>
+
+<form method="post" class="reservation-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Mettre à jour</button>
+    <a href="{% url 'liste_reservations' %}" class="btn btn-secondary">Retour à la liste</a>
+</form>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.reservation-form {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+}
+.reservation-form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.reservation-form button,
+.reservation-form a.btn {
+    margin-right: 10px;
+    margin-top: 10px;
+}
+</style>
+{% endblock %}
+
+
